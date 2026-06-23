@@ -1,0 +1,8 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Local master backup — kept outside the deploy, never upload
+iCOMIC-MOTION-Website-backups/
+../iCOMIC-MOTION-Website-backups/
+icomic-hero.mp4

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>iCOMIC MOTION — The Future Is Under Construction</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Major+Mono+Display&display=swap');
+
+  /* ============================================================
+     SWAP YOUR CUSTOM FONT HERE when it's ready:
+     change --display-font to your font's name (add @font-face above).
+     The whole wordmark + HUD updates automatically.
+     ============================================================ */
+  :root{
+    --display-font:'Chakra Petch', sans-serif;
+    --mono-font:'Major Mono Display', monospace;
+    --body-font:'Space Grotesk', sans-serif;
+    --void:#04050a; --neon:#2ff0d0; --hot:#ff2e8a; --gold:#ffc24b;
+    --ink:#eaf2ff; --mute:#7585a6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;overflow:hidden}
+  body{background:var(--void);color:var(--ink);font-family:var(--body-font);position:relative;cursor:crosshair}
+
+  /* ---------- HERO VIDEO ---------- */
+  .stage{position:fixed;inset:0;width:100vw;height:100vh;overflow:hidden;z-index:0}
+  .hero-video{position:absolute;top:50%;left:50%;z-index:1;
+    width:100%;height:100%;min-width:104%;min-height:104%;
+    transform:translate(-50%,-38%);object-fit:cover;will-change:transform}
+  .hero-fallback{position:absolute;inset:0;z-index:0;background:
+    radial-gradient(120% 80% at 30% 25%,rgba(47,240,208,.14),transparent 50%),
+    radial-gradient(120% 90% at 74% 72%,rgba(255,46,138,.18),transparent 55%),
+    linear-gradient(180deg,#06080f,#04050a)}
+
+  /* cinematic grade + vignette over the clip */
+  .grade{position:absolute;inset:0;z-index:2;pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(4,5,10,.92) 0%, rgba(4,5,10,.55) 14%,
+      rgba(4,5,10,.05) 32%, rgba(4,5,10,.05) 60%, rgba(4,5,10,.4) 78%,
+      rgba(4,5,10,.85) 100%),
+      radial-gradient(70% 45% at 50% 22%, rgba(47,240,208,.10), transparent 70%)}
+  /* scanlines */
+  .scan{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:.35;
+    background:repeating-linear-gradient(0deg,rgba(0,0,0,.0) 0px,rgba(0,0,0,.0) 2px,rgba(0,0,0,.25) 3px,rgba(0,0,0,.0) 4px);
+    animation:scanmove 8s linear infinite}
+  @keyframes scanmove{0%{background-position-y:0}100%{background-position-y:100px}}
+  /* film grain */
+  .grain{position:absolute;inset:0;z-index:4;opacity:.06;pointer-events:none;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+  /* ---------- HUD CORNERS ---------- */
+  .hud{position:fixed;inset:0;z-index:6;pointer-events:none;font-family:var(--mono-font);
+    color:var(--neon);font-size:11px;letter-spacing:.05em}
+  .hud .br{position:absolute;width:26px;height:26px;border:1px solid rgba(47,240,208,.5)}
+  .hud .tl{top:18px;left:18px;border-right:none;border-bottom:none}
+  .hud .tr{top:18px;right:18px;border-left:none;border-bottom:none}
+  .hud .bl{bottom:18px;left:18px;border-right:none;border-top:none}
+  .hud .brr{bottom:18px;right:18px;border-left:none;border-top:none}
+  .hud .read{position:absolute;text-transform:uppercase;opacity:.85;text-shadow:0 0 8px rgba(47,240,208,.5)}
+  .hud .r-tl{top:24px;left:54px}
+  .hud .r-tr{top:24px;right:54px;text-align:right;color:var(--hot);text-shadow:0 0 8px rgba(255,46,138,.5)}
+  .hud .r-bl{bottom:24px;left:54px}
+
+  /* ---------- CENTER WORDMARK ---------- */
+  .content{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;
+    align-items:center;justify-content:flex-start;text-align:center;padding:7vh 24px 9vh;
+    transform:translateZ(0);will-change:transform}
+  .textscrim{position:fixed;left:50%;top:24%;transform:translate(-50%,-50%);
+    z-index:4;width:min(1000px,90vw);height:46vh;pointer-events:none;
+    background:radial-gradient(55% 50% at 50% 45%,rgba(4,5,10,.5),transparent 75%)}
+  .lowerscrim{position:fixed;left:50%;bottom:4%;transform:translateX(-50%);
+    z-index:4;width:min(680px,90vw);height:40vh;pointer-events:none;
+    background:radial-gradient(60% 60% at 50% 70%,rgba(4,5,10,.62),transparent 78%)}
+
+  .eyebrow{font-family:var(--display-font);font-size:11px;letter-spacing:.55em;text-transform:uppercase;
+    color:var(--neon);margin-bottom:20px;display:flex;align-items:center;gap:12px;
+    text-shadow:0 0 12px rgba(47,240,208,.6)}
+  .eyebrow::before,.eyebrow::after{content:'';width:34px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--neon),transparent)}
+
+  .wordmark{position:relative;font-family:var(--display-font);font-weight:700;line-height:.86;
+    letter-spacing:-.01em;text-transform:uppercase;font-size:clamp(40px,9.5vw,128px)}
+  .wordmark .line{display:block;position:relative;
+    background:linear-gradient(180deg,#fff 0%,#cdeeff 50%,#7fb6d6 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 4px 26px rgba(47,240,208,.35))}
+  .wordmark .line-2{-webkit-mask-image:linear-gradient(180deg,#000 0%,
+    #000 58%,rgba(0,0,0,.55) 82%,transparent 100%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 58%,
+    rgba(0,0,0,.55) 82%,transparent 100%)}
+  .wordmark .i{color:var(--hot);-webkit-text-fill-color:var(--hot);
+    text-shadow:0 0 30px rgba(255,46,138,.7)}
+  /* glitch clones */
+  .wordmark .glitch{position:absolute;inset:0;background:none;-webkit-text-fill-color:initial}
+  .wordmark .glitch span{display:block}
+  .g-cyan{color:var(--neon);mix-blend-mode:screen;animation:gC 4s steps(2) infinite}
+  .g-pink{color:var(--hot);mix-blend-mode:screen;animation:gP 4s steps(2) infinite}
+  @keyframes gC{0%,92%,100%{transform:translate(0);opacity:0}93%{transform:translate(-3px,1px);opacity:.8}96%{transform:translate(2px,-1px);opacity:.6}}
+  @keyframes gP{0%,92%,100%{transform:translate(0);opacity:0}94%{transform:translate(3px,-1px);opacity:.8}97%{transform:translate(-2px,1px);opacity:.6}}
+
+  .statusline{margin-top:auto;display:flex;align-items:center;gap:11px;font-family:var(--display-font);
+    font-weight:600;font-size:clamp(12px,2.2vw,16px);letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+  .statusline .dot{width:8px;height:8px;border-radius:99px;background:var(--gold);
+    box-shadow:0 0 14px var(--gold);animation:blink 1.4s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+  .tagline{margin-top:26px;max-width:430px;color:#c4d0ec;font-size:14px;line-height:1.6}
+
+  /* ---------- EMAIL CAPTURE ---------- */
+  .capture{margin-top:30px;display:flex;gap:10px;width:min(440px,90vw);pointer-events:auto}
+  .capture input{flex:1;background:rgba(6,10,20,.7);backdrop-filter:blur(10px);
+    border:1px solid rgba(47,240,208,.25);border-radius:12px;padding:15px 18px;color:var(--ink);
+    font-family:var(--body-font);font-size:14px;outline:none;transition:.2s}
+  .capture input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(47,240,208,.14)}
+  .capture input::placeholder{color:var(--mute)}
+  .capture button{font-family:var(--display-font);font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+    font-size:13px;padding:0 24px;border:none;border-radius:12px;cursor:pointer;color:#04050a;
+    background:linear-gradient(135deg,var(--neon),#5ff);transition:.2s;white-space:nowrap}
+  .capture button:hover{filter:brightness(1.1);box-shadow:0 0 26px rgba(47,240,208,.55)}
+  .capture button:active{transform:translateY(1px)}
+  .formnote{margin-top:13px;font-size:12px;color:var(--mute);min-height:16px;font-family:var(--mono-font);letter-spacing:.05em}
+  .formnote.ok{color:var(--neon)}
+
+  .social{margin-top:26px;display:flex;gap:22px;pointer-events:auto}
+  .social a{color:var(--mute);font-family:var(--display-font);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;text-decoration:none;transition:.2s}
+  .social a:hover{color:var(--neon);text-shadow:0 0 10px rgba(47,240,208,.5)}
+
+  .sound{position:fixed;bottom:20px;right:20px;z-index:8;width:44px;height:44px;border-radius:12px;
+    border:1px solid rgba(47,240,208,.3);background:rgba(6,10,20,.7);backdrop-filter:blur(8px);
+    color:var(--ink);cursor:pointer;display:grid;place-items:center;font-size:15px;transition:.2s;pointer-events:auto}
+  .sound:hover{border-color:var(--neon);color:var(--neon)}
+
+  /* intro flash */
+  .boot{position:fixed;inset:0;z-index:30;background:var(--void);display:grid;place-items:center;
+    transition:opacity .6s ease}
+  .boot.gone{opacity:0;pointer-events:none}
+  .boot .bt{font-family:var(--mono-font);color:var(--neon);font-size:13px;letter-spacing:.3em;text-transform:uppercase}
+
+  @media (max-width:640px){
+    .hud .read{font-size:9px}
+    .r-bl{display:none}
+    .eyebrow{letter-spacing:.35em}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="boot"><div class="bt" id="bootTxt">▸ initializing build…</div></div>
+
+<div class="stage">
+  <!-- YOUR CLIP. Keep muted+loop+autoplay+playsinline for autoplay. -->
+  <video class="hero-video" id="hero" autoplay muted loop playsinline>
+    <source src="icomic-hero-web.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-fallback"></div>
+  <div class="grade"></div>
+  <div class="scan"></div>
+  <div class="grain"></div>
+</div>
+
+<div class="textscrim"></div>
+<div class="lowerscrim"></div>
+
+<!-- HUD corner frame + readouts -->
+<div class="hud">
+  <div class="br tl"></div><div class="br tr"></div><div class="br bl"></div><div class="br brr"></div>
+  <div class="read r-tl">iCM // build_node_01</div>
+  <div class="read r-tr">BUILD <span id="pct">91%</span> · ● REC · LIVE</div>
+  <div class="read r-bl" id="coords">x:00.0 y:00.0</div>
+</div>
+
+<main class="content" id="parallax">
+  <div class="eyebrow">The crew is on site</div>
+
+  <h1 class="wordmark">
+    <span class="line"><span class="i">i</span>COMIC</span>
+    <span class="line line-2">MOTION</span>
+    <span class="glitch g-cyan" aria-hidden="true"><span>iCOMIC</span><span>MOTION</span></span>
+    <span class="glitch g-pink" aria-hidden="true"><span>iCOMIC</span><span>MOTION</span></span>
+  </h1>
+
+  <div class="statusline"><span class="dot"></span>The Future Is Under Construction</div>
+
+  <p class="tagline">You're early. The crew's still building — get on the list.</p>
+
+  <form class="capture" id="signup" novalidate>
+    <input type="email" id="email" placeholder="your@email.com" autocomplete="email" />
+    <button type="submit">Notify me</button>
+  </form>
+  <div class="formnote" id="note">No spam. One signal when we go live.</div>
+
+  <nav class="social">
+    <a href="#" target="_blank" rel="noopener">Instagram</a>
+    <a href="#" target="_blank" rel="noopener">TikTok</a>
+    <a href="#" target="_blank" rel="noopener">X</a>
+  </nav>
+</main>
+
+<button class="sound" id="sound" title="Toggle sound">🔇</button>
+
+<script>
+  // boot flash sequence
+  const boot=document.querySelector('.boot'), bootTxt=document.getElementById('bootTxt');
+  const seq=['▸ initializing build…','▸ loading crew…','▸ powering neon grid…','▸ welcome to iCOMIC MOTION'];
+  let bi=0;
+  const bint=setInterval(()=>{ bi++; if(bi<seq.length){ bootTxt.textContent=seq[bi]; }
+    else{ clearInterval(bint); boot.classList.add('gone'); } },520);
+
+  // cursor parallax on wordmark + coords HUD
+  const parallax=document.getElementById('parallax');
+  const coords=document.getElementById('coords');
+  const hero=document.getElementById('hero');
+  addEventListener('pointermove',e=>{
+    const dx=(e.clientX/innerWidth-0.5), dy=(e.clientY/innerHeight-0.5);
+    parallax.style.transform=`translate(${dx*-18}px,${dy*-14}px)`;
+    hero.style.transform=`translate(calc(-50% + ${dx*-22}px), calc(-38% + ${dy*-16}px))`;
+    coords.textContent=`x:${(dx*100+50).toFixed(1)} y:${(dy*100+50).toFixed(1)}`;
+  });
+
+  // live build % counter
+  const pct=document.getElementById('pct');
+  let p=91;
+  setInterval(()=>{ p=Math.min(98,p+(Math.random()>0.55?1:0));
+    pct.textContent=p+'%'; },1500);
+
+  // sound toggle
+  const sound=document.getElementById('sound');
+  sound.addEventListener('click',()=>{
+    hero.muted=!hero.muted; sound.textContent=hero.muted?'🔇':'🔊';
+    sound.style.color=hero.muted?'':'var(--neon)';
+    if(!hero.muted) hero.play().catch(()=>{});
+  });
+
+  // email capture (local for now — swap for Formspree/ConvertKit to collect live)
+  const form=document.getElementById('signup'), email=document.getElementById('email'), note=document.getElementById('note');
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const v=email.value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ note.textContent='> enter a valid email'; note.classList.remove('ok'); return; }
+    try{ const l=JSON.parse(localStorage.getItem('icm')||'[]'); if(!l.includes(v))l.push(v); localStorage.setItem('icm',JSON.stringify(l)); }catch(_){}
+    note.textContent="> you're on the list. see you at launch ⚡"; note.classList.add('ok'); email.value='';
+  });
+</script>
+</body>
+</html>
