@@ -1,0 +1,25 @@
+<!doctype html>
+<!--
+  Netlify Forms detection file. This static file deploys to the site root
+  verbatim, so it's the reliable place for Netlify to register the "waitlist"
+  form and its exact fields.
+
+  The live form in index.html POSTs url-encoded data to /__forms.html with
+  these same field names. Posting to this real file (not "/") means nothing
+  intercepts the submission, so Netlify records it.
+
+  Field names here MUST stay in sync with the form in index.html.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Netlify form detection</title>
+  </head>
+  <body>
+    <form name="waitlist" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="waitlist" />
+      <input type="email" name="email" />
+      <input name="bot-field" />
+    </form>
+  </body>
+</html>
