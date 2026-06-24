@@ -250,6 +250,7 @@
     songOn=!songOn;
     if(songOn){
       bgsong.currentTime=0;
+      hero.currentTime=0;   // restart the video loop in lockstep with the song (video stays muted)
       bgsong.play().catch(()=>{ songOn=false; sound.textContent='🔇'; sound.style.color=''; });
     } else {
       bgsong.pause();
