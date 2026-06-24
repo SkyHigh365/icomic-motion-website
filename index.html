@@ -132,6 +132,13 @@
     border:1px solid rgba(47,240,208,.3);background:rgba(6,10,20,.7);backdrop-filter:blur(8px);
     color:var(--ink);cursor:pointer;display:grid;place-items:center;font-size:15px;transition:.2s;pointer-events:auto}
   .sound:hover{border-color:var(--neon);color:var(--neon)}
+  /* tap-for-sound hint beside the sound button */
+  .soundhint{position:fixed;bottom:31px;right:76px;z-index:8;pointer-events:none;
+    font-family:var(--mono-font);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--neon);white-space:nowrap;text-shadow:0 0 10px rgba(47,240,208,.6);
+    animation:hintpulse 1.5s ease-in-out infinite;transition:opacity .6s ease}
+  @keyframes hintpulse{0%,100%{opacity:.3}50%{opacity:1}}
+  .soundhint.gone{animation:none;opacity:0}
 
   /* intro flash */
   .boot{position:fixed;inset:0;z-index:30;background:var(--void);display:grid;place-items:center;
@@ -203,6 +210,11 @@
 </main>
 
 <button class="sound" id="sound" title="Toggle sound">🔇</button>
+<div class="soundhint" id="soundhint">TAP FOR SOUND 🔊</div>
+
+<audio id="bgsong" loop preload="auto">
+  <source src="system-online-loop.mp3" type="audio/mpeg" />
+</audio>
 
 <script>
   // boot flash sequence
@@ -229,12 +241,22 @@
   setInterval(()=>{ p=Math.min(98,p+(Math.random()>0.55?1:0));
     pct.textContent=p+'%'; },1500);
 
-  // sound toggle
+  // sound toggle — plays the looping background song (the video itself stays muted)
   const sound=document.getElementById('sound');
+  const bgsong=document.getElementById('bgsong');
+  const soundhint=document.getElementById('soundhint');
+  let songOn=false;
   sound.addEventListener('click',()=>{
-    hero.muted=!hero.muted; sound.textContent=hero.muted?'🔇':'🔊';
-    sound.style.color=hero.muted?'':'var(--neon)';
-    if(!hero.muted) hero.play().catch(()=>{});
+    songOn=!songOn;
+    if(songOn){
+      bgsong.currentTime=0;
+      bgsong.play().catch(()=>{ songOn=false; sound.textContent='🔇'; sound.style.color=''; });
+    } else {
+      bgsong.pause();
+    }
+    sound.textContent=songOn?'🔊':'🔇';
+    sound.style.color=songOn?'var(--neon)':'';
+    if(soundhint) soundhint.classList.add('gone');  // fade the hint after first interaction
   });
 
   // email capture — same proven method as the working plumbing site:
