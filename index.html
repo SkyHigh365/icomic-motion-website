@@ -187,8 +187,10 @@
 
   <p class="tagline">You're early. The crew's still building — get on the list.</p>
 
-  <form class="capture" id="signup" novalidate>
-    <input type="email" id="email" placeholder="your@email.com" autocomplete="email" />
+  <form class="capture" id="signup" name="waitlist" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <input type="hidden" name="form-name" value="waitlist" />
+    <p hidden><label>Don't fill this out: <input name="bot-field" /></label></p>
+    <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email" />
     <button type="submit">Notify me</button>
   </form>
   <div class="formnote" id="note">No spam. One signal when we go live.</div>
@@ -235,14 +237,20 @@
     if(!hero.muted) hero.play().catch(()=>{});
   });
 
-  // email capture (local for now — swap for Formspree/ConvertKit to collect live)
+  // email capture — POST to Netlify Forms (form-name=waitlist)
   const form=document.getElementById('signup'), email=document.getElementById('email'), note=document.getElementById('note');
   form.addEventListener('submit',e=>{
     e.preventDefault();
     const v=email.value.trim();
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){ note.textContent='> enter a valid email'; note.classList.remove('ok'); return; }
+    // keep a local copy too (harmless fallback)
     try{ const l=JSON.parse(localStorage.getItem('icm')||'[]'); if(!l.includes(v))l.push(v); localStorage.setItem('icm',JSON.stringify(l)); }catch(_){}
-    note.textContent="> you're on the list. see you at launch ⚡"; note.classList.add('ok'); email.value='';
+    note.textContent='> sending…'; note.classList.remove('ok');
+    const body=new URLSearchParams({'form-name':'waitlist','email':v}).toString();
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body})
+      .then(r=>{ if(!r.ok) throw new Error(r.status);
+        note.textContent="> you're on the list. see you at launch ⚡"; note.classList.add('ok'); email.value=''; })
+      .catch(()=>{ note.textContent='> something went wrong — try again'; note.classList.remove('ok'); });
   });
 </script>
 </body>
