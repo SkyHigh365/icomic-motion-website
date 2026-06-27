@@ -50,7 +50,7 @@
   body{background:var(--void);color:var(--ink);font-family:var(--body-font);position:relative;cursor:crosshair}
 
   /* ---------- HERO VIDEO ---------- */
-  .stage{position:fixed;inset:0;width:100vw;height:100vh;overflow:hidden;z-index:0}
+  .stage{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;height:100svh;overflow:hidden;z-index:0}
   .hero-video{position:absolute;top:50%;left:50%;z-index:1;
     width:100%;height:100%;min-width:104%;min-height:104%;
     transform:translate(-50%,-38%);object-fit:cover;will-change:transform}
@@ -89,7 +89,7 @@
   .hud .r-bl{bottom:24px;left:54px}
 
   /* ---------- CENTER WORDMARK ---------- */
-  .content{position:fixed;inset:0;z-index:5;display:flex;flex-direction:column;
+  .content{position:fixed;inset:0;height:100vh;height:100dvh;height:100svh;z-index:5;display:flex;flex-direction:column;
     align-items:center;justify-content:flex-start;text-align:center;padding:7vh 24px 9vh;
     transform:translateZ(0);will-change:transform}
   .textscrim{position:fixed;left:50%;top:24%;transform:translate(-50%,-50%);
@@ -180,6 +180,24 @@
     .r-bl{display:none}
     .eyebrow{letter-spacing:.35em}
     .social{gap:14px 18px}
+  }
+
+  /* ---------- MOBILE PORTRAIT: show the full 16:9 scene as a centered band ----------
+     Desktop & all landscape (aspect-ratio > 1) are unaffected. */
+  @media (max-aspect-ratio: 1/1){
+    /* whole crew visible (leopard GEEZ, gorilla GEEZ, SkyHigh); dark fallback letterboxes above/below */
+    .hero-video{width:100%;height:auto;min-width:0;min-height:0;
+      top:50%;left:50%;transform:translate(-50%,-50%);object-fit:contain}
+    /* lighter grade so the smaller band isn't over-darkened — keep gentle top/bottom fades for text */
+    .grade{background:linear-gradient(180deg,
+      rgba(4,5,10,.60) 0%, rgba(4,5,10,.12) 20%,
+      rgba(4,5,10,0) 46%, rgba(4,5,10,0) 60%,
+      rgba(4,5,10,.35) 80%, rgba(4,5,10,.72) 100%)}
+    /* three clean zones: wordmark (top) · scene band (middle) · form + consent + links (bottom) */
+    .content{padding-top:4.5vh;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+    .tagline{margin-top:13px}
+    .capture{margin-top:16px}
+    .social{margin-top:16px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
