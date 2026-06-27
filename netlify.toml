@@ -1,0 +1,9 @@
+# Netlify configuration — iCOMIC MOTION
+# Static site (no build step); this file wires up the serverless functions.
+
+[functions]
+  # Where the functions live (this is also Netlify's default, set explicitly for clarity).
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # Bundle the email template next to the function so it can be read at runtime.
+  included_files = ["netlify/functions/welcome-email-template.html"]

@@ -15,3 +15,8 @@ icomic-hero-web-OLD.mp4
 
 # Local editing backups — never deploy
 *.bak
+
+# Node deps (Netlify installs these at build time; never commit them)
+node_modules/
+# Netlify local build artifacts
+.netlify/

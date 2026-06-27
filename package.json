@@ -1,0 +1,24 @@
+{
+  "name": "icomic-motion-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkyHigh365/icomic-motion-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/SkyHigh365/icomic-motion-website/issues"
+  },
+  "homepage": "https://github.com/SkyHigh365/icomic-motion-website#readme",
+  "dependencies": {
+    "resend": "^6.16.0"
+  }
+}
