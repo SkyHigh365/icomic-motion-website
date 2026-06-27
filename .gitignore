@@ -12,3 +12,6 @@ system-online.mp3
 
 # Previous hero video — kept locally as a backup until the new one is confirmed live
 icomic-hero-web-OLD.mp4
+
+# Local editing backups — never deploy
+*.bak
