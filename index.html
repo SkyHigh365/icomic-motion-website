@@ -329,7 +329,7 @@
       });
       // Only show success if Netlify actually accepted the POST.
       if(!res.ok) throw new Error('Submission failed ('+res.status+')');
-      note.textContent="> you're on the list. see you at launch ⚡"; note.classList.add('ok'); email.value='';
+      note.textContent="✓ SUCCESS — ICOMIC MOTION WILL SIGNAL YOU WHEN WE GO LIVE"; note.classList.add('ok'); email.value=''; form.style.display='none';
     }catch(_){
       note.textContent='> something went wrong — try again'; note.classList.remove('ok');
     }
