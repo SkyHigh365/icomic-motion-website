@@ -187,14 +187,15 @@
   @media (max-aspect-ratio: 1/1){
     /* whole crew visible (leopard GEEZ, gorilla GEEZ, SkyHigh); dark fallback letterboxes above/below */
     .hero-video{width:100%;height:auto;min-width:0;min-height:0;
-      top:50%;left:50%;transform:translate(-50%,-50%);object-fit:contain}
+      top:44%;left:50%;transform:translate(-50%,-50%);object-fit:contain}
     /* lighter grade so the smaller band isn't over-darkened — keep gentle top/bottom fades for text */
     .grade{background:linear-gradient(180deg,
       rgba(4,5,10,.60) 0%, rgba(4,5,10,.12) 20%,
       rgba(4,5,10,0) 46%, rgba(4,5,10,0) 60%,
       rgba(4,5,10,.35) 80%, rgba(4,5,10,.72) 100%)}
     /* three clean zones: wordmark (top) · scene band (middle) · form + consent + links (bottom) */
-    .content{padding-top:4.5vh;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+    .content{padding-top:6vh;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
+    .wordmark{font-size:clamp(48px,12vw,150px)}
     .tagline{margin-top:13px}
     .capture{margin-top:16px}
     .social{margin-top:16px}
