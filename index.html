@@ -147,6 +147,10 @@
   .capture button:active{transform:translateY(1px)}
   .formnote{margin-top:13px;font-size:12px;color:var(--mute);min-height:16px;font-family:var(--mono-font);letter-spacing:.05em}
   .formnote.ok{color:var(--neon)}
+  .consent{margin-top:9px;max-width:440px;font-family:var(--mono-font);font-size:10px;line-height:1.55;
+    letter-spacing:.04em;color:var(--mute)}
+  .consent a{color:var(--mute);text-decoration:underline;text-underline-offset:2px;transition:.2s}
+  .consent a:hover{color:var(--neon);text-shadow:0 0 8px rgba(47,240,208,.5)}
 
   .social{margin-top:26px;display:flex;gap:22px;pointer-events:auto}
   .social a{color:var(--mute);font-family:var(--display-font);font-size:11px;letter-spacing:.2em;
@@ -226,11 +230,13 @@
     <button type="submit">Notify me</button>
   </form>
   <div class="formnote" id="note">No spam. One signal when we go live.</div>
+  <p class="consent">By signing up, you agree to receive launch updates. We'll never share your email. See our <a href="/privacy.html">Privacy Policy</a>.</p>
 
   <nav class="social">
     <a href="#" target="_blank" rel="noopener">Instagram</a>
     <a href="#" target="_blank" rel="noopener">TikTok</a>
     <a href="#" target="_blank" rel="noopener">X</a>
+    <a href="/privacy.html">Privacy</a>
   </nav>
 </main>
 
