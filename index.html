@@ -152,7 +152,7 @@
   .consent a{color:var(--mute);text-decoration:underline;text-underline-offset:2px;transition:.2s}
   .consent a:hover{color:var(--neon);text-shadow:0 0 8px rgba(47,240,208,.5)}
 
-  .social{margin-top:26px;display:flex;gap:22px;pointer-events:auto}
+  .social{margin-top:26px;display:flex;flex-wrap:wrap;justify-content:center;gap:22px;pointer-events:auto}
   .social a{color:var(--mute);font-family:var(--display-font);font-size:11px;letter-spacing:.2em;
     text-transform:uppercase;text-decoration:none;transition:.2s}
   .social a:hover{color:var(--neon);text-shadow:0 0 10px rgba(47,240,208,.5)}
@@ -179,6 +179,7 @@
     .hud .read{font-size:9px}
     .r-bl{display:none}
     .eyebrow{letter-spacing:.35em}
+    .social{gap:14px 18px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
